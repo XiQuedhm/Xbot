@@ -3,10 +3,12 @@ import random as rd
 import time as t
 import re
 import sys
+import config
 
 sudo = os.system
-fileWay = '/root/go-cqhttp/Xbot/'
-fileWay = '/storage/emulated/0/Quark/Download/Xbot/'
+fileWay = config.workPath
+#fileWay = '/root/go-cqhttp/Xbot/'
+#fileWay = '/storage/emulated/0/Quark/Download/Xbot/'
 #工作目录
 
 class Load :

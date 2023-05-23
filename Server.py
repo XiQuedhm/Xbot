@@ -4,6 +4,7 @@ import os
 import time as t
 import threading as thread
 import XbotLib as Lib
+import config
 import zipfile
 
 print('正在加载插件')

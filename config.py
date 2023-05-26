@@ -1,4 +1,4 @@
-workPath = /Root/Project/Xbot/
+workPath = '/Root/Project/Xbot/'
 doAcceptGroupRequest = True
 doAcceptFriendRequest = True
 doPrintChineseLog = False

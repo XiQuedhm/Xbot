@@ -1,18 +1,28 @@
 from flask import Flask, request
+import requests as r
 import os
 import time as t
+import threading as thread
 import XbotLib as Lib
-Lib.Load.loadPlugins()
+import config
+import zipfile
+
+load = Lib.Load
 inter = Lib.Internal
 bot = Lib.Request
 sudo = os.system
 startTime = t.time()
+
+print('正在加载插件')
+load.loadPlugins()
+print('アトリは、高性能ですから!')
+
 app = Flask('Xbot')
 @app.route('/', methods=["POST"])
 def postData():
     data = request.get_json()
     eventType = data['post_type']
-    if eventType == "message" :
+    if eventType == 'message' :
         eventMessageTpye = data['message_type']
         eventMessageID = data['message_id']
         eventMessageSenderID = data['user_id']

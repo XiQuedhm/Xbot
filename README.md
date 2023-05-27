@@ -1,4 +1,4 @@
-![icon0](https://github.com/XiQuedhm/Xbot/blob/main/.resources/icon_dark.png "Xbot Icon")
+![icon0](https://raw.githubusercontent.com/XiQuedhm/Xbot/main/.resources/icon_dark.png "Xbot Icon")
 <br>
 ![Icon1](https://img.shields.io/badge/Chat%20on-gitter%20or%20telegram-blue "Chat")
 <br>

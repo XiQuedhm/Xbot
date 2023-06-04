@@ -1,28 +1,29 @@
-
-import zipfile, json, config, threading, time, os
+import os
+import random as rd
+import time as t
+import re
+import sys
+import config
 
 sudo = os.system
 fileWay = config.workPath
 #fileWay = '/root/go-cqhttp/Xbot/'
 #fileWay = '/storage/emulated/0/Quark/Download/Xbot/'
-#工作目录time
+#工作目录
 
 class Load :
     #只有加载时会运行的函数归类到这里
-    def loadPlugins(): #加载plugins文件夹内zip压缩文件的插件，返回缓存目录cache内的文件
-        for folder in ['./plugins/']:
+    def loadPlugins():
+        for folder in ['./plugins/', './builtinPlugins/']:
             for root, dirs, files in os.walk(folder):
                 for file in files:
                     if file.endswith('.zip'):
                         zip_file = os.path.join(root, file)
                         with zipfile.ZipFile(zip_file, 'r') as zip_ref:
                             zip_ref.extractall(os.path.join('./cache/', os.path.splitext(file)[0]))
-        return os.path.abspath('./cache/')
-<<<<<<< HEAD
+    return os.path.abspath('./cache/')
     #这个函数是ChatGPT写的，我知道运行过程和效果但是无法描述出来
     #不过，它是用来加载插件的
-=======
->>>>>>> parent of 432be51 (开发版本6(00006))
     
     def loadPluginsFunctions():
         data = {}
@@ -55,7 +56,7 @@ class Internal :
             data = json.load(f)
             for k in key:
                 data = data[k]
-            return data
+        return data
     
     def writeJson(filePath, key=None, value=None):
         if value is None:
@@ -83,8 +84,8 @@ class Internal :
         with open(filePath, 'w') as f:
             json.dump(data, f)
         return data
-    #GPT写的
-    #输入文件，键，值，直接更改
+        #GPT写的
+        #输入文件，键，值，直接更改
     
     def logInput(logType,logBody):
         #用来写运行日志的方法
@@ -117,7 +118,7 @@ class Internal :
             logType = "["+logType+"]"
         logList = os.listdir(Internal.fileWay+'logs/')
         #解析输入的日志类型
-        localTime = time.localtime()
+        localTime = t.localtime()
         todayLogFileName = str(localTime[0])+"-"+str(localTime[1])+"-"+str(localTime[2])+".log"
         #查看时间和创建文件名
         if todayLogFileName in logList :
@@ -127,13 +128,13 @@ class Internal :
         #检查文件是否已存在
         with open(todayLogFileName,"a") as logFile:
             if doWriteFileHead :
-                content = logBodyP1+str(time.time()//1)+logBodyP2+logType+logBody+"\n"
+                content = logBodyP1+str(t.time()//1)+logBodyP2+logType+logBody+"\n"
             else :
                 content = logType+logBody+"\n"
             #生成日志头和内容
             logFile.write(content)
             #写入
-        # print(content)
+        print(content)
         return content
         #方法返回写入的内容
 
@@ -145,7 +146,3 @@ class Request :
 
 if __name__ == "__main__" :
     pass
-<<<<<<< HEAD
-=======
-    # print(Internal.logInput(4,'test'))
->>>>>>> parent of 432be51 (开发版本6(00006))

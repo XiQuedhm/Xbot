@@ -28,6 +28,7 @@
 * Python (≥ 3.8)
     * Flask
     * requests
+* pip
 * zip
 * unzip
 * gzip

@@ -4,6 +4,9 @@ import time as t
 import re
 import sys
 import config
+import threading
+import zipfile
+import json
 
 sudo = os.system
 fileWay = config.workPath
@@ -13,37 +16,18 @@ fileWay = config.workPath
 
 class Load :
     #只有加载时会运行的函数归类到这里
-    def loadPlugins():
-        for folder in ['./plugins/', './builtinPlugins/']:
-            for root, dirs, files in os.walk(folder):
-                for file in files:
-                    if file.endswith('.zip'):
-                        zip_file = os.path.join(root, file)
-                        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-                            zip_ref.extractall(os.path.join('./cache/', os.path.splitext(file)[0]))
-    return os.path.abspath('./cache/')
-    #这个函数是ChatGPT写的，我知道运行过程和效果但是无法描述出来
-    #不过，它是用来加载插件的
-    
-    def loadPluginsFunctions():
-        data = {}
-        plugins = [0, {}]
-        commands = 0
-        for root, dirs, files in os.walk('./cache/'):
-            if root != './cache/':
-                for file in files:
-                    if file.endswith('.py') and not file.endswith('.lib.py'):
-                        name = os.path.splitext(file)[0]
-                        filePath = os.path.join(root, file)
-                        folder_path = os.path.abspath(root)
-                        data[name] = [filePath, folder_path]
-                        commands += 1
-                folder_name = os.path.basename(root)
-                plugins[0] += 1
-                plugins[1][folder_name] = os.path.abspath(root)
-        result = {'data': data, 'plugins': plugins, 'commands': commands}
-        return result
-    
+    def load():
+        pluginPath = "plugins/"
+        cachePath = "cache/plugins"
+        files = os.listdir(pluginPath)
+        pluginCount = 0
+        for fileName in files:
+            file = zipfile.ZipFile(pluginPath+fileName)
+            pluginCount += 1
+            file.extractall(cachePath)
+            file.close()
+        return str(pluginCount)
+           
 class Internal :
     #和框架本身或文件操作有关的类，其中定义运行时会调用的方法
     def runFunction(func, *args):
@@ -116,10 +100,10 @@ class Internal :
             logType = logTypeMap[logType]
         else :
             logType = "["+logType+"]"
-        logList = os.listdir(Internal.fileWay+'logs/')
+        logList = os.listdir('./logs/')
         #解析输入的日志类型
         localTime = t.localtime()
-        todayLogFileName = str(localTime[0])+"-"+str(localTime[1])+"-"+str(localTime[2])+".log"
+        todayLogFileName = logList+str(localTime[0])+"-"+str(localTime[1])+"-"+str(localTime[2])+".log"
         #查看时间和创建文件名
         if todayLogFileName in logList :
             doWriteFileHead = False

@@ -18,13 +18,13 @@ class Load :
     #只有加载时会运行的函数归类到这里
     def load():
         pluginPath = "plugins/"
-        cachePath = "cache/plugins"
+        cachePath = "cache/plugins/"
         files = os.listdir(pluginPath)
         pluginCount = 0
         for fileName in files:
             file = zipfile.ZipFile(pluginPath+fileName)
             pluginCount += 1
-            file.extractall(cachePath)
+            file.extractall(cachePath+fileName)
             file.close()
         return str(pluginCount)
            

@@ -13,9 +13,11 @@ bot = Lib.Request
 sudo = os.system
 startTime = t.time()
 
-print('正在加载插件')
-load.loadPlugins()
-print('アトリは、高性能ですから!')
+inter.logInput(0, "アトリは、高性能ですから!")
+time1 = t.time()
+count = load.load()
+time2 = t.time()
+inter.logInput(0, "共加载了"+str(count)+"个插件，耗时"+str(time2-time1)+"秒")
 
 app = Flask('Xbot')
 @app.route('/', methods=["POST"])

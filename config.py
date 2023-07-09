@@ -1,4 +1,13 @@
-workPath = '/Root/Project/Xbot/'
+cilntVer = "00009"
+accessToken = ""
+url = "127.0.0.1"
+postPort = 5800
+listenPort = 5800
+workPath = 'C:/Xbot/'
+useAdmin = True
+useOwner = True
+doPrintLogToGroup = False
+groupID = 0
 doAutoAcceptGroupRequest = True
 doAutoAcceptFriendRequest = True
 doPrintChineseLog = True

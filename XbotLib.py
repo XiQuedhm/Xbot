@@ -14,17 +14,19 @@ fileWay = config.workPath
 #fileWay = '/storage/emulated/0/Quark/Download/Xbot/'
 #工作目录
 
+url = config.url+":"+str(config.postPort)
+
 class Load :
     #只有加载时会运行的函数归类到这里
     def load():
-        pluginPath = "plugins/"
-        cachePath = "cache/plugins/"
+        pluginPath = "./plugins/"
+        cachePath = "./cache/plugins/"
         files = os.listdir(pluginPath)
         pluginCount = 0
         for fileName in files:
             file = zipfile.ZipFile(pluginPath+fileName)
             pluginCount += 1
-            file.extractall(cachePath+fileName)
+            file.extractall(cachePath)
             file.close()
         return str(pluginCount)
            
@@ -103,14 +105,14 @@ class Internal :
         logList = os.listdir('./logs/')
         #解析输入的日志类型
         localTime = t.localtime()
-        todayLogFileName = logList+str(localTime[0])+"-"+str(localTime[1])+"-"+str(localTime[2])+".log"
+        todayLogFileName = str(localTime[0])+"-"+str(localTime[1])+"-"+str(localTime[2])+".log"
         #查看时间和创建文件名
         if todayLogFileName in logList :
             doWriteFileHead = False
         else :
             doWriteFileHead = True
         #检查文件是否已存在
-        with open(todayLogFileName,"a") as logFile:
+        with open("./logs/"+todayLogFileName,"a") as logFile:
             if doWriteFileHead :
                 content = logBodyP1+str(t.time()//1)+logBodyP2+logType+logBody+"\n"
             else :
@@ -124,9 +126,7 @@ class Internal :
 
 class Request :
     #和go-cqhttp有关的类，其中定义发送信息，图片等时调用的方法
-    def passs() :
-        pass
-        return ""
+    pass
 
 if __name__ == "__main__" :
     pass

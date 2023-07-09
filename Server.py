@@ -13,17 +13,40 @@ bot = Lib.Request
 sudo = os.system
 startTime = t.time()
 
+true = True
+false = False
+
 inter.logInput(0, "アトリは、高性能ですから!")
 time1 = t.time()
 count = load.load()
 time2 = t.time()
 inter.logInput(0, "共加载了"+str(count)+"个插件，耗时"+str(time2-time1)+"秒")
 
+with open("./data/blackList.json", "r") as file :
+    blackList = list(file.read())
+
 app = Flask('Xbot')
 @app.route('/', methods=["POST"])
 def postData():
     data = request.get_json()
     eventType = data['post_type']
+    if eventType == "request" :
+        if config.doAutoAcceptFriendRequest or config.doAutoAcceptGroupRequest:
+            back = "true"
+        else :
+            back = "false"
+        UsrID = data["user_id"]
+        if UsrID in blackList:
+            back = "false"
+        flag = data["flag"]
+        if data["Post_Request_Type"] == "friend" :
+            endPoint = "/set_friend_add_request"
+        elif data["type"] == "invite" :
+            endPoint = "/set_group_add_request"
+        url = Lib.url+endPoint+"?flag="+flag+"&approve="+back
+        r.get(url)
+        Lib.Internal.logInput(1, "对来自")
+        
     if eventType == 'message' :
         eventMessageTpye = data['message_type']
         eventMessageID = data['message_id']
@@ -37,7 +60,9 @@ def postData():
             eventMessageSenderTitle = eventMessageSender['title']
             eventMessageSenderRole = eventMessageSender['role']
             eventMessageSenderLevel = eventMessageSender['level']
-    elif True :
+    elif eventType == "notice" :
+        pass
+    elif eventType == "meta_event" :
         pass
         
     
@@ -45,4 +70,4 @@ def postData():
     
 if __name__ == '__main__':
     print(startTime)
-    app.run(host='127.0.0.1',port=63254)
+    app.run(host='127.0.0.1',port=config.listenPort)

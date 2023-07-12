@@ -1,4 +1,4 @@
-cilntVer = "00009"
+cilntVer = "00010"
 accessToken = ""
 url = "127.0.0.1"
 postPort = 5800

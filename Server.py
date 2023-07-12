@@ -44,8 +44,12 @@ def postData():
         elif data["type"] == "invite" :
             endPoint = "/set_group_add_request"
         url = Lib.url+endPoint+"?flag="+flag+"&approve="+back
+        if back:
+            back = "同意"
+        else:
+            back = "拒绝"
         r.get(url)
-        Lib.Internal.logInput(1, "对来自")
+        inter.logInput(1, back+"了来自"+UsrID+"的好友/群请求")
         
     if eventType == 'message' :
         eventMessageTpye = data['message_type']

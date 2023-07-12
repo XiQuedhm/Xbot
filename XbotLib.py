@@ -7,6 +7,8 @@ import config
 import threading
 import zipfile
 import json
+import requests as r
+import gocqhttpAPIlib as apiLib
 
 sudo = os.system
 fileWay = config.workPath
@@ -126,7 +128,48 @@ class Internal :
 
 class Request :
     #和go-cqhttp有关的类，其中定义发送信息，图片等时调用的方法
+    def main(endPoint,keys=[],values=[]):
+        keys = list(keys)
+        values = list(values)
+        _url = url+endPoint
+        if not keys:
+            hasArg = False
+        else:
+            hasArg =True
+        if hasArg:
+            for key in keys: 
+                keyIndex = keys.index(key)
+                value = values[keyIndex]
+                if keyIndex == 0:
+                    pram = "?"+key+"="+value+"&"
+                elif keys[-1] == key:
+                    pram = key+"="+value
+                else:
+                    pram = key+"="+value+"&"
+            _url = _url+pram
+        data = r.get(_url)
+        print(_url)
+        return data
+
+    def useApi(apiData,values=[]):
+        endPoint = apiData["endPoint"]
+        keys = apiData["keys"]
+        data = Request.main(endPoint,keys,values)
+        return data
+
+    
+    def getBotInfo(values=[]):
+        data = Request.useApi(apiLib.getBotInfo,values)
+        return data
+    
+    def setBotProfile(values=[]):
+        data = Request.useApi(apiLib.setBotProfile,values)
+        return data
+        
     pass
 
 if __name__ == "__main__" :
-    pass
+    keys = ["key1", "key2"]
+    values = ["value1", "value2"]
+    endPoint = "/end_point"
+    Request.main(endPoint,keys,values)

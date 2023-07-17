@@ -71,7 +71,7 @@ class Load :
                     data = eval(pluginInfo.read())
                     isLoad1 = data["useAdmin"] == config.useAdmin
                     isLoad2 = data["useOwner"] == config.useOwner
-                    isLoad3 = config.cilntVer >= data["cilntVer"]
+                    isLoad3 = int(config.cilntVer) >= int(data["cilntVer"])
                     if isLoad1 == isLoad2 == isLoad3:
                         load = True
                     else:
@@ -107,7 +107,7 @@ class Load :
                 "commands": commands
             }
             with open("./cache/pluginCache", "w") as file:
-                file.write(returnData)
+                file.write(str(returnData))
         else:
             with open("./cache/pluginCache", "r") as file:
                 returnData = eval(file.read())
@@ -256,7 +256,5 @@ class Request :
     pass
 
 if __name__ == "__main__" :
-    keys = ["key1", "key2"]
-    values = ["value1", "value2"]
-    endPoint = "/end_point"
-    Request.main(endPoint,keys,values)
+    print(Load.load())
+    print(Load.read())

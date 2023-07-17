@@ -18,6 +18,13 @@ fileWay = config.workPath
 
 url = config.url+":"+str(config.postPort)
 
+class user :
+    userDataPath = "./data/user/"
+    userList = os.listdir(userDataPath)
+    for fileuUserDataName in userList :
+        with open(userDataPath+fileuUserDataName, "r") as file:
+            fileData = eval(file.read())
+
 class Load :
     #只有加载时会运行的函数归类到这里
     def load():
@@ -31,6 +38,85 @@ class Load :
             file.extractall(cachePath)
             file.close()
         return str(pluginCount)
+    
+    def read():
+        if config.useCachePlugin:
+            path = "./cache/"
+            DirFileList = os.listdir(path)
+            cacheFileName = "pluginCache"
+            if cacheFileName in DirFileList:
+                doRead = False
+            else:
+                doRead = True
+        else:
+            doRead = True
+        if doRead:
+            plugins = []
+            helpDocs = {}
+            commandIndexs = []
+            replys = []
+            commands = {}
+            notLoadCount = 0
+            pluginFileNames=[
+                "config.json",
+                "help.json",
+                "index.json",
+                "reply.json"
+            ]
+            loadPath = "./cache/plugins/"
+            loadList = os.listdir(loadPath)
+            for pluginDirName in loadList:
+                pluginPath = loadPath+pluginDirName+"/"
+                with open(pluginPath+pluginFileNames[0], "r") as pluginInfo:
+                    data = eval(pluginInfo.read())
+                    isLoad1 = data["useAdmin"] == config.useAdmin
+                    isLoad2 = data["useOwner"] == config.useOwner
+                    isLoad3 = config.cilntVer >= data["cilntVer"]
+                    if isLoad1 == isLoad2 == isLoad3:
+                        load = True
+                    else:
+                        load = False
+                if load:
+                    plugins.append(data["name"])
+                    with open(pluginPath+pluginFileNames[1], "r") as pluginHelp:
+                        data = eval(pluginHelp.read())
+                        for helpIndex in data:
+                            helpValue = data[helpIndex]
+                            helpDocs[helpIndex] = helpValue
+                    with open(pluginPath+pluginFileNames[2], "r") as commandIndexFile:
+                        data = eval(commandIndexFile.read())
+                        for commandIndex in data:
+                            commandIndexs.append(commandIndex)
+                    with open(pluginPath+pluginFileNames[3], "r") as replysFile:
+                        data = eval(replysFile.read())
+                        for reply in data:
+                            replys.append(reply)
+                    commandPath = pluginPath+"commands/"
+                    commandNameList = os.listdir(commandPath)
+                    for commandFileName in commandNameList:
+                        with open(commandPath+commandFileName, "r") as commandFile:
+                            data = commandFile.read()
+                            commands[commandFileName] = data
+                else:
+                    notLoadCount = notLoadCount+1
+            returnData = {
+                "plugins": plugins,
+                "helps": helpDocs,
+                "replys": replys,
+                "commandIndexs": commandIndexs,
+                "commands": commands
+            }
+            with open("./cache/pluginCache", "w") as file:
+                file.write(returnData)
+        else:
+            with open("./cache/pluginCache", "r") as file:
+                returnData = eval(file.read())
+        return returnData
+
+
+
+
+            
            
 class Internal :
     #和框架本身或文件操作有关的类，其中定义运行时会调用的方法
@@ -127,15 +213,16 @@ class Internal :
         #方法返回写入的内容
 
 class Request :
+    url = config.url+":"+str(config.postPort)
     #和go-cqhttp有关的类，其中定义发送信息，图片等时调用的方法
     def main(endPoint,keys=[],values=[]):
         keys = list(keys)
         values = list(values)
-        _url = url+endPoint
-        if not keys:
-            hasArg = False
+        url = Request.url+endPoint
+        if keys:
+            hasArg = True
         else:
-            hasArg =True
+            hasArg = False
         if hasArg:
             for key in keys: 
                 keyIndex = keys.index(key)
@@ -146,9 +233,9 @@ class Request :
                     pram = key+"="+value
                 else:
                     pram = key+"="+value+"&"
-            _url = _url+pram
-        data = r.get(_url)
-        print(_url)
+                url = url+pram
+        data = r.get(url)
+        print(url)
         return data
 
     def useApi(apiData,values=[]):

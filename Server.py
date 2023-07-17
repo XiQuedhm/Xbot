@@ -25,6 +25,8 @@ inter.logInput(0, "共加载了"+str(count)+"个插件，耗时"+str(time2-time1
 with open("./data/blackList.json", "r") as file :
     blackList = list(file.read())
 
+blackList = Lib.user.black
+
 app = Flask('Xbot')
 @app.route('/', methods=["POST"])
 def postData():

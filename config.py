@@ -1,11 +1,13 @@
-cilntVer = "00010"
+cilntVer = 10
 accessToken = ""
+commandPrefix = "^(\.|。|！)"
 url = "127.0.0.1"
 postPort = 5800
 listenPort = 5800
 workPath = 'C:/Xbot/'
-useAdmin = True
-useOwner = True
+useAdmin = 0
+useOwner = 0
+useCachePlugin = False
 doPrintLogToGroup = False
 groupID = 0
 doAutoAcceptGroupRequest = True

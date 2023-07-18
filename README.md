@@ -5,7 +5,7 @@
 ![Icon2](https://img.shields.io/badge/Language-Python-lightgrey "Language")
 ![Icon3](https://img.shields.io/badge/Licence-CC--BY--NC--SA%204.0-lightgrey "Licence")
 <br>
-A QQ bot framework with easy to use that made of Python.
+A OneBot SDK with easy to use that made of Python.
 
 # Xbot
 *  [English](https://github.com/XiQuedhm/Xbot/blob/main/README.md)

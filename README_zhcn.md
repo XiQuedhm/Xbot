@@ -5,7 +5,7 @@
 ![Icon2](https://img.shields.io/badge/Language-Python-lightgrey "Language")
 ![Icon3](https://img.shields.io/badge/Licence-CC--BY--NC--SA%204.0-lightgrey "Licence")
 <br>
-一个使用Python制作的简单易用的QQ机器人框架
+一个使用Python制作的简单易用的OneBot SDK
 
 # Xbot
 *  [English](https://github.com/XiQuedhm/Xbot/blob/main/README.md)

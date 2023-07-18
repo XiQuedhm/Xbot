@@ -20,19 +20,13 @@
 * [将来可能的功能](#开发中功能)
 * [开源许可证](#licence)
 ## 背景
-这个项目最初的目的是制作一个高拓展性，高可自定义性，高稳定性的自用框架
-<br>
-随着开发进度的推进，我越发觉得它也应该成为一个可以供其他人使用的框架，所以我创建了这个仓库
+这个项目的目的是制作一个高拓展性，高可自定义性，高稳定性的，使用onebot标准的框架
 ## 安装
 ### 依赖
 * Python (≥ 3.8)
     * Flask
     * requests
 * git
-* pip
-* zip
-* unzip
-* gzip
 
 ### 通用安装
 你可以使用
@@ -40,7 +34,7 @@
 cd
 git clone https://github.com/XiQuedhm/Xbot.git
 ```
-来安装`Xbot`，你也可以直接下载发行版中的文件自行解压
+来安装`Xbot`，你也可以直接下载发行版中的文件自行安装/解压
 ### Linux安装
 如果你在`Linux`环境中，你也可以使用
 ```sh
@@ -60,6 +54,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/XiQuedhm/Xbot/main/tools/i
 开启时运行`Xbot/bin/open.bat`
 <br>
 把插件放置在`Xbot/plugins`目录下，插件将在启动时被自动加载
+## 配置
 ## 贡献者
 ### 以下排名不分先后
 * 夏小白

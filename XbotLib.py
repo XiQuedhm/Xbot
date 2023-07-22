@@ -114,10 +114,6 @@ class Load :
         return returnData
 
 
-
-
-            
-           
 class Internal :
     #和框架本身或文件操作有关的类，其中定义运行时会调用的方法
     def runFunction(func, *args):
@@ -125,41 +121,83 @@ class Internal :
         t.start()
     #用来以一个新线程运行一个函数
     
-    def readJson(filePath, key):
-        with open(filePath, 'r') as f:
-            data = json.load(f)
-            for k in key:
-                data = data[k]
-        return data
-    
-    def writeJson(filePath, key=None, value=None):
-        if value is None:
-            value = key
-            key = None
-        data = {}
-        if os.path.exists(filePath):
-            with open(filePath, 'r') as f:
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError:
-                    pass
-        if key:
-            keys = key.replace('[', '.').replace(']', '').split('.')
-            d = data
-            for k in keys[:-1]:
-                if k not in d:
-                    d[k] = {}
-                d = d[k]
-            d[keys[-1]] = value
+    def _setValue(data, keys , value):
+        if len(keys) == 1:
+            data[keys[0]] = value
         else:
-            if not isinstance(data, list):
-                data = []
-            data.append(value)
-        with open(filePath, 'w') as f:
-            json.dump(data, f)
+            if keys[0] not in data:
+                data[keys[0]] = {}
+            Internal._setValue(data[keys[0]], keys[1:], value)
         return data
-        #GPT写的
-        #输入文件，键，值，直接更改
+
+    def dataWrite(keys=[], value="", index=""):
+        if index:
+            pass
+        else:
+            index = "_defaut"
+        if value:
+            pass
+        else:
+            value = "defaut"
+        dataPath = "./data/plugins/"
+        filePath = dataPath+str(index)
+        for key in keys:
+            if key:
+                cacheKey = key
+            else:
+                cacheKey = "defaut"
+            keys[keys.index(key)] = str(cacheKey)
+        file = open(filePath, "w+")
+        data = file.read()
+        if not data:
+            data = {}
+        else:
+            data = eval(data)
+        if data:
+            pass
+        else:
+            data = {}
+        data = Internal._setValue(data, keys, value)
+        file.write(str(data))
+        file.close()
+        return data
+
+    
+    # def readJson(filePath, key):
+    #     with open(filePath, 'r') as f:
+    #         data = json.load(f)
+    #         for k in key:
+    #             data = data[k]
+    #     return data
+    # 
+    # def writeJson(filePath, key=None, value=None):
+    #     if value is None:
+    #         value = key
+    #         key = None
+    #     data = {}
+    #     if os.path.exists(filePath):
+    #         with open(filePath, 'r') as f:
+    #             try:
+    #                 data = json.load(f)
+    #             except json.JSONDecodeError:
+    #                 pass
+    #     if key:
+    #         keys = key.replace('[', '.').replace(']', '').split('.')
+    #         d = data
+    #         for k in keys[:-1]:
+    #             if k not in d:
+    #                 d[k] = {}
+    #             d = d[k]
+    #         d[keys[-1]] = value
+    #     else:
+    #         if not isinstance(data, list):
+    #             data = []
+    #         data.append(value)
+    #     with open(filePath, 'w') as f:
+    #         json.dump(data, f)
+    #     return data
+    #     #GPT写的
+    #     #输入文件，键，值，直接更改
     
     def logInput(logType,logBody):
         #用来写运行日志的方法
@@ -256,5 +294,4 @@ class Request :
     pass
 
 if __name__ == "__main__" :
-    print(Load.load())
-    print(Load.read())
+    print(Internal.dataWrite([1,3], "awa"))

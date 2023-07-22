@@ -1,0 +1,14 @@
+[
+    {
+        "type": "regex",
+        "trigger": "^test1$",
+        "replyType": "raw",
+        "content": "text"
+    },
+    {
+        "type": "match",
+        "trigger": "test2",
+        "replyType": "CQ",
+        "content": "[CQ:image,file=simple.png]"
+    }
+]

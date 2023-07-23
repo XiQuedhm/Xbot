@@ -9,6 +9,7 @@ import zipfile
 import json
 import requests as r
 import gocqhttpAPIlib as apiLib
+from typing import List
 
 sudo = os.system
 fileWay = config.workPath
@@ -121,14 +122,24 @@ class Internal :
         t.start()
     #用来以一个新线程运行一个函数
     
-    def _setValue(data, keys , value):
-        if len(keys) == 1:
-            data[keys[0]] = value
+    # def _setValue(data, keys , value):
+    #     if len(keys) == 1:
+    #         data[keys[0]] = value
+    #     else:
+    #         if keys[0] not in data:
+    #             data[keys[0]] = {}
+    #         Internal._setValue(data[keys[0]], keys[1:], value)
+    #     return data
+
+    def _list2dict(dicdata, lst: List[str], value: str):
+        k = lst[0]
+        if k not in dicdata:
+            dicdata[k] = {}
+        if len(lst) == 1:
+            dicdata[k] = value
         else:
-            if keys[0] not in data:
-                data[keys[0]] = {}
-            Internal._setValue(data[keys[0]], keys[1:], value)
-        return data
+            Internal._list2dict(dicdata[k], lst[1:], value)
+
 
     def dataWrite(keys=[], value="", index=""):
         if index:
@@ -147,17 +158,23 @@ class Internal :
             else:
                 cacheKey = "defaut"
             keys[keys.index(key)] = str(cacheKey)
-        file = open(filePath, "w+")
+        try:
+            file = open(filePath, "r")
+        except:
+            file = open(filePath, "w+")
         data = file.read()
+        file.close()
+        print(data)
         if not data:
             data = {}
         else:
-            data = eval(data)
-        if data:
-            pass
-        else:
-            data = {}
-        data = Internal._setValue(data, keys, value)
+            try:
+                data = eval(data)
+            except:
+                data = {}
+        print(data)
+        Internal._list2dict(data, keys, value)
+        file = open(filePath, "w")
         file.write(str(data))
         file.close()
         return data

@@ -14,7 +14,6 @@ from typing import List
 sudo = os.system
 fileWay = config.workPath
 #fileWay = '/root/go-cqhttp/Xbot/'
-#fileWay = '/storage/emulated/0/Quark/Download/Xbot/'
 #工作目录
 
 url = config.url+":"+str(config.postPort)
@@ -164,7 +163,7 @@ class Internal :
             file = open(filePath, "w+")
         data = file.read()
         file.close()
-        print(data)
+        # print(data)
         if not data:
             data = {}
         else:
@@ -172,13 +171,45 @@ class Internal :
                 data = eval(data)
             except:
                 data = {}
-        print(data)
+        # print(data)
         Internal._list2dict(data, keys, value)
         file = open(filePath, "w")
         file.write(str(data))
         file.close()
         return data
 
+    def getData(keys=[], index=""): 
+        if index:
+            pass
+        else:
+            index = "_defaut"
+        for key in keys:
+            if key:
+                cacheKey = key
+            else:
+                cacheKey = "defaut"
+            keys[keys.index(key)] = str(cacheKey)
+        dataPath = "./data/plugins/"
+        filePath = dataPath+str(index)
+        try:
+            file = open(filePath, "r")
+        except:
+            return None
+        data = file.read()
+        file.close()
+        if not data:
+            data = {}
+        else:
+            try:
+                data = eval(data)
+            except:
+                data = {}
+        for key in keys:
+            try:
+                data = data[key]
+            except:
+                return data
+        return data
     
     # def readJson(filePath, key):
     #     with open(filePath, 'r') as f:
@@ -298,7 +329,6 @@ class Request :
         keys = apiData["keys"]
         data = Request.main(endPoint,keys,values)
         return data
-
     
     def getBotInfo(values=[]):
         data = Request.useApi(apiLib.getBotInfo,values)
@@ -311,4 +341,4 @@ class Request :
     pass
 
 if __name__ == "__main__" :
-    print(Internal.dataWrite([1,3], "awa"))
+    ...

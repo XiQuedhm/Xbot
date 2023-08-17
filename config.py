@@ -1,4 +1,4 @@
-cilntVer = 12
+cilntVer = 13
 accessToken = ""
 commandPrefix = "^(\.|。|！)"
 url = "127.0.0.1"

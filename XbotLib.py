@@ -301,7 +301,7 @@ class Internal :
 class Request :
     url = config.url+":"+str(config.postPort)
     #和go-cqhttp有关的类，其中定义发送信息，图片等时调用的方法
-    def main(endPoint,keys=[],values=[]):
+    def _main(endPoint,keys=[],values=[]):
         keys = list(keys)
         values = list(values)
         url = Request.url+endPoint
@@ -324,18 +324,24 @@ class Request :
         print(url)
         return data
 
-    def useApi(apiData,values=[]):
+    def _useApi(apiData,values=[]):
         endPoint = apiData["endPoint"]
-        keys = apiData["keys"]
-        data = Request.main(endPoint,keys,values)
+        if apiData["hasArg"]:
+            keys = apiData["keys"]
+            data = Request._main(endPoint,keys,values)
+        else:
+            url = Request.url+endPoint
+            data = r.get(url)
+        log = str()
+        Internal.logInput(0,)
         return data
     
     def getBotInfo(values=[]):
-        data = Request.useApi(apiLib.getBotInfo,values)
+        data = Request._useApi(apiLib.getBotInfo,values)
         return data
     
     def setBotProfile(values=[]):
-        data = Request.useApi(apiLib.setBotProfile,values)
+        data = Request._useApi(apiLib.setBotProfile,values)
         return data
         
     pass

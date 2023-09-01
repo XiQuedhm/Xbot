@@ -1,6 +1,6 @@
-cilntVer = 13
+cilntVer = 14
 accessToken = ""
-commandPrefix = "^(\.|。|！)"
+commandPrefix = ["\.", "。"]
 url = "127.0.0.1"
 postPort = 5800
 listenPort = 5800
